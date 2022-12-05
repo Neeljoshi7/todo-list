@@ -98,5 +98,8 @@ nav a:first-of-type {
 
 .task-done{
   text-decoration: line-through;
+  color: gray;
 }
+
+
 </style>

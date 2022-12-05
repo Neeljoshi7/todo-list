@@ -21,11 +21,23 @@
         <tr v-for="(todo, index) in getTodo" :key="index">
           <th scope="row">
             <div class="check-box">
-              <input type="checkbox" @change="changeStatus(todo.id)" />
+              <input
+                type="checkbox"
+                v-if="todo.status == 'Pending'"
+                @change="changeStatus(todo.id)"
+              />
+               <input
+                type="checkbox"
+                checked
+                v-if="todo.status == 'Done'"
+                @change="changeStatus(todo.id)"
+              />
             </div>
           </th>
-          <td :class="{'task-done': todo.status == 'Done'}">{{ todo.newTask }}</td>
-          <td>{{ todo.priority }}</td>
+          <td :class="{ 'task-done': todo.status == 'Done' }">
+            {{ todo.newTask }}
+          </td>
+          <td  :class="{ 'task-done': todo.status == 'Done' }">{{ todo.priority }}</td>
           <td>{{ todo.status }}</td>
           <td>
             <button
@@ -56,7 +68,6 @@ export default {
       demo: {
         name: "Hello World",
       },
-      status: "this.getTodo.status"
     };
   },
   mounted() {
@@ -68,7 +79,7 @@ export default {
       this.$router.push({
         path: "/edittask",
         query: {
-          id : i.id,
+          id: i.id,
           name: i.newTask,
           priority: i.priority,
           status: i.status,
@@ -76,19 +87,19 @@ export default {
       });
     },
     delTodo(item) {
-      let updat = this.getTodo.filter(todo=>todo.id !== item);
-        this.getTodo = updat
-      localStorage.setItem("newTodos",JSON.stringify(updat))
+      let updat = this.getTodo.filter((todo) => todo.id !== item);
+      this.getTodo = updat;
+      localStorage.setItem("newTodos", JSON.stringify(updat));
     },
-    changeStatus(id){
-      let edit = this.getTodo.find((todo) => todo.id == id)
-      if(edit.status == "Pending"){
-        edit.status = "Done"
+    changeStatus(id) {
+      let edit = this.getTodo.find((todo) => todo.id == id);
+      if (edit.status == "Pending") {
+        edit.status = "Done";
+      } else {
+        edit.status = "Pending";
       }
-      else{
-        edit.status = "Pending"
-      }
-    }
+      localStorage.setItem("newTodos", JSON.stringify(this.getTodo));
+    },
   },
 };
 </script>
